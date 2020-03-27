@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 """
 Simple-python-archiver
 
@@ -17,9 +19,9 @@ inputFileList = "archive-files.txt"					# The file containing the list of file l
 outputFileLabel = "backup.tgz" 						# The string identifing these archives
 outputLocation = "/media/backups"					# Where archives are stored
 dateFormat = "%Y-%m-%d @ %H-%M"						# The date format 
-allowance = 1.05							# Growth expectation ~~ frequency
-fixedArchiveCount = True						# Enable fixed archive number
-fixedArchiveNumber = 10							# Fixed number of archives
+allowance = 1.05									# Growth expectation ~~ frequency
+fixedArchiveCount = True							# Enable fixed archive number
+fixedArchiveNumber = 10								# Fixed number of archives
 
 # =========== Methods ============
 def CreateArchive(outputFilePath,archiveFilePaths):
@@ -44,16 +46,15 @@ def GetArchiveStatistics(path,filePattern):
 	maxArchiveSize = 0
 	for fn in os.listdir(path):
 		if not fn.endswith(filePattern):
-			continue	
+			continue
 		fnPath = os.path.join(path,fn)
 		files.append(fnPath)
 		# Get the maximum size file
 		fnSize = float(GetFileSize(fnPath))
 		if fnSize > maxArchiveSize:
 			maxArchiveSize = fnSize
-			largest = fnPath							
-			
-	# Get the oldest and newest	
+			largest = fnPath
+	# Get the oldest and newest
 	files = sorted(files, key=os.path.getctime)
 	oldest = files[0]
 	newest = files[-1]
@@ -61,7 +62,7 @@ def GetArchiveStatistics(path,filePattern):
 	return newest, oldest, largest, archiveNumber
 
 def GetConfigList(fileName):
-	fHandle = open(fileName, 'r') 
+	fHandle = open(fileName, 'r')
 	fileList = fHandle.readlines()
 	for i in range(0,len(fileList)):
 		fileList[i] = fileList[i].rstrip() # remove end of lines
@@ -84,7 +85,6 @@ def GetFileSize(path):
 
 # ================== Main =====================
 currentTime = datetime.now()
-currentPath = os.path.abspath(os.getcwd())
 outputFilePath = os.path.join(outputLocation,
 	"[" + currentTime.strftime(dateFormat) + "] " + outputFileLabel)
 
@@ -94,12 +94,12 @@ print("[BACKUP] Location: " + outputLocation)
 print("[BACKUP] ")
 
 # ====== Check fixed number constraint ========
-newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel)	# Get current archive data
-if (fixedArchiveCount):															# Check if number of archives is within boundary
+newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel)			# Get current archive data
+if (fixedArchiveCount):												# Check if number of archives is within boundary
 	print("[BACKUP] Confirming archive count...")
 	while archiveNumber > int(fixedArchiveNumber):
-		os.remove(oldest)														# Delete oldest archive
-		newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel)														
+		os.remove(oldest)										# Delete oldest archive
+		newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel)
 	print("[BACKUP] Archive number valid.")
 
 #For debug
@@ -119,7 +119,7 @@ print("[BACKUP] Total: %dMB used: %dMB free: %dMB (%d%% used)" %(
 	(float(used)/float(total))*100))
 
 if (diff > 0): 																	# Check against space requirements
-	print("[BACKUP] More space required (%dMB).. deleting oldest archive '%s'" % (diff/1000000,oldest)) 
+	print("[BACKUP] More space required (%dMB).. deleting oldest archive '%s'" % (diff/1000000,oldest))
 	os.remove(oldest)															# Removing an archive file is necessary
 else:
 	print("[BACKUP] Space check passed.")
@@ -128,12 +128,12 @@ else:
 print("[BACKUP] ")
 print("[BACKUP] Continuing with backup procedure...")
 print("[BACKUP] ")
-print("[BACKUP] Target archive: %s" %(outputFilePath))	
+print("[BACKUP] Target archive: %s" %(outputFilePath))
 print("[BACKUP] Reading file set:")
 
-# Look for list of local files 
+# Look for list of local files
 try:
-	fileList = GetConfigList(inputFileList)
+	fileList = GetConfigList(os.path.join(os.path.abspath(os.getcwd()),inputFileList))
 except:
 	print("[BACKUP] Reading input file list failed.")
 	sys.exit()
@@ -154,3 +154,4 @@ else:
 
 print("[BACKUP] ")
 print("[BACKUP] ...routine complete.\n")
+sys.exit()

@@ -1,3 +1,11 @@
+"""
+Simple-python-archiver
+
+A simple script for handling regular localised backups, intended for use with crontab or manual usage.
+
+Author: James A. Douthwaite
+"""
+
 import os
 #import sys
 import tarfile
@@ -9,9 +17,9 @@ inputFileList = "archive=files.txt"					# The file containing the list of file l
 outputFileLabel = "backup.tgz" 						# The string identifing these archives
 outputLocation = "/media/backups"					# Where archives are stored
 dateFormat = "%Y-%m-%d @ %H-%M"						# The date format 
-allowance = 1.05									# Growth expectation ~~ frequency
-fixedArchiveCount = True							# Enable fixed archive number
-fixedArchiveNumber = 10								# Fixed number of archives
+allowance = 1.05							# Growth expectation ~~ frequency
+fixedArchiveCount = True						# Enable fixed archive number
+fixedArchiveNumber = 10							# Fixed number of archives
 
 # =========== Methods ============
 def CreateArchive(outputFilePath,archiveFilePaths):
@@ -26,7 +34,7 @@ def CreateArchive(outputFilePath,archiveFilePaths):
 		print("OS error: {0}".format(err))
 
 		if os.path.exists(outputFilePath):
-			os.remove(outputFilePath)				# If a file is created, remove it
+			os.remove(outputFilePath)			# If a file is created, remove it
 
 	return flag
 
@@ -100,7 +108,7 @@ if (fixedArchiveCount):															# Check if number of archives is within bo
 # ========== Confirm space on disk ============
 print("[BACKUP] ")
 print("[BACKUP] Confirming available drive space..")
-free, total, used = GetDiskUsage(outputLocation)								# Get usage
+free, total, used = GetDiskUsage(outputLocation)							# Get usage
 diff = float(GetFileSize(largest))*allowance - float(free) 						# The space differencial
 
 print("[BACKUP] Space at archive location:");

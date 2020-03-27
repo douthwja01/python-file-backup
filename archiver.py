@@ -7,13 +7,13 @@ Author: James A. Douthwaite
 """
 
 import os
-#import sys
+import sys
 import tarfile
 from datetime import datetime
 from collections import namedtuple
 
 # ======== Configuration =========
-inputFileList = "archive=files.txt"					# The file containing the list of file locations
+inputFileList = "archive-files.txt"					# The file containing the list of file locations
 outputFileLabel = "backup.tgz" 						# The string identifing these archives
 outputLocation = "/media/backups"					# Where archives are stored
 dateFormat = "%Y-%m-%d @ %H-%M"						# The date format 
@@ -131,7 +131,13 @@ print("[BACKUP] ")
 print("[BACKUP] Target archive: %s" %(outputFilePath))	
 print("[BACKUP] Reading file set:")
 
-fileList = GetConfigList(inputFileList)
+# Look for list of local files 
+try:
+	fileList = GetConfigList(inputFileList)
+except:
+	print("[BACKUP] Reading input file list failed.")
+	sys.exit()
+
 for file in fileList:
 	print("[BACKUP] Queuing file '%s'" %(file))									# Read out for clarity
 

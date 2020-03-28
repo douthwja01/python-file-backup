@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!$(which python)
 
 """
 Simple-python-archiver

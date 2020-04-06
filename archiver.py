@@ -19,7 +19,7 @@ inputFileList = "archive-files.txt"					# The file containing the list of file l
 outputFileLabel = "backup.tgz" 						# The string identifing these archives
 outputLocation = "/media/backups"					# Where archives are stored
 dateFormat = "%Y-%m-%d @ %H-%M"						# The date format 
-allowance = 1.05									# Growth expectation ~~ frequency
+allowance = 1.1										# Growth expectation ~~ frequency
 fixedArchiveCount = True							# Enable fixed archive number
 fixedArchiveNumber = 10								# Fixed number of archives
 

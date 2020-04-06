@@ -115,13 +115,14 @@ print("[BACKUP] Total: %dMB used: %dMB free: %dMB (%d%% used)" %(
 	float(used)/1000000,
 	float(free)/1000000,
 	(float(used)/float(total))*100))																# Display initial drive stats
-diff = float(GetFileSize(largest))*allowance - float(free) 											# The space differencial
+diff = float(GetFileSize(largest))*allowance - float(free)											# The space differencial
+# Recursively remove files										
 while diff > 0:
 	print("[BACKUP] More space required (%dMB).. deleting oldest archive '%s'" % (diff/1000000,oldest))
 	os.remove(oldest)
 	# Re-evaluate
-	newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel) 	# Redefine the oldest archive data
-	free, total, used = GetDiskUsage(outputLocation)												# Get new usage
+	oldest, largest = GetArchiveStatistics(outputLocation,outputFileLabel)[1:2] 					# Redefine the oldest archive data
+	free = GetDiskUsage(outputLocation)[0]															# Get new usage
 	diff = float(GetFileSize(largest))*allowance - float(free) 									  	# Reaffirm space differencial
 
 print("[BACKUP] Space check passed.")

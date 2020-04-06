@@ -36,7 +36,7 @@ def CreateArchive(outputFilePath,archiveFilePaths):
 		print("OS error: {0}".format(err))
 
 		if os.path.exists(outputFilePath):
-			os.remove(outputFilePath)			# If a file is created, remove it
+			os.remove(outputFilePath)				# If a file is created, remove it
 
 	return flag
 
@@ -65,7 +65,7 @@ def GetConfigList(fileName):
 	fHandle = open(fileName, 'r')
 	fileList = fHandle.readlines()
 	for i in range(0,len(fileList)):
-		fileList[i] = fileList[i].rstrip() # remove end of lines
+		fileList[i] = fileList[i].rstrip() 			# remove end of lines
 	return fileList
 
 def GetDiskUsage(path):
@@ -115,13 +115,13 @@ print("[BACKUP] Total: %dMB used: %dMB free: %dMB (%d%% used)" %(
 	float(used)/1000000,
 	float(free)/1000000,
 	(float(used)/float(total))*100))																# Display initial drive stats
-
 diff = float(GetFileSize(largest))*allowance - float(free) 											# The space differencial
-while diff < 0
+while diff > 0:
 	print("[BACKUP] More space required (%dMB).. deleting oldest archive '%s'" % (diff/1000000,oldest))
 	os.remove(oldest)
+	# Re-evaluate
 	newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel) 	# Redefine the oldest archive data
-	free = GetDiskUsage(outputLocation)																# Get new usage
+	free, total, used = GetDiskUsage(outputLocation)												# Get new usage
 	diff = float(GetFileSize(largest))*allowance - float(free) 									  	# Reaffirm space differencial
 
 print("[BACKUP] Space check passed.")

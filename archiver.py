@@ -94,11 +94,11 @@ print("[BACKUP] Location: " + outputLocation)
 print("[BACKUP] ")
 
 # ====== Check fixed number constraint ========
-newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel)			# Get current archive data
-if (fixedArchiveCount):												# Check if number of archives is within boundary
+newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel)		# Get current archive data
+if (fixedArchiveCount):																				# Check if number of archives is within boundary
 	print("[BACKUP] Confirming archive count...")
 	while archiveNumber > int(fixedArchiveNumber):
-		os.remove(oldest)										# Delete oldest archive
+		os.remove(oldest)																			# Delete oldest archive
 		newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel)
 	print("[BACKUP] Archive number valid.")
 
@@ -108,21 +108,23 @@ if (fixedArchiveCount):												# Check if number of archives is within bound
 # ========== Confirm space on disk ============
 print("[BACKUP] ")
 print("[BACKUP] Confirming available drive space..")
-free, total, used = GetDiskUsage(outputLocation)							# Get usage
-diff = float(GetFileSize(largest))*allowance - float(free) 						# The space differencial
-
+free, total, used = GetDiskUsage(outputLocation)													# Get usage
 print("[BACKUP] Space at archive location:");
 print("[BACKUP] Total: %dMB used: %dMB free: %dMB (%d%% used)" %(
 	float(total)/1000000,
 	float(used)/1000000,
 	float(free)/1000000,
-	(float(used)/float(total))*100))
+	(float(used)/float(total))*100))																# Display initial drive stats
 
-if (diff > 0): 																	# Check against space requirements
+diff = float(GetFileSize(largest))*allowance - float(free) 											# The space differencial
+while diff < 0
 	print("[BACKUP] More space required (%dMB).. deleting oldest archive '%s'" % (diff/1000000,oldest))
-	os.remove(oldest)															# Removing an archive file is necessary
-else:
-	print("[BACKUP] Space check passed.")
+	os.remove(oldest)
+	newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel) 	# Redefine the oldest archive data
+	free = GetDiskUsage(outputLocation)																# Get new usage
+	diff = float(GetFileSize(largest))*allowance - float(free) 									  	# Reaffirm space differencial
+
+print("[BACKUP] Space check passed.")
 
 # =============== Backing up ====================
 print("[BACKUP] ")

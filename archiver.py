@@ -121,8 +121,9 @@ while diff > 0:
 	print("[BACKUP] More space required (%dMB).. deleting oldest archive '%s'" % (diff/1000000,oldest))
 	os.remove(oldest)
 	# Re-evaluate
-	oldest, largest = GetArchiveStatistics(outputLocation,outputFileLabel)[1:2] 					# Redefine the oldest archive data
-	free = GetDiskUsage(outputLocation)[0]															# Get new usage
+	newest, oldest, largest, archiveNumber = GetArchiveStatistics(outputLocation,outputFileLabel)	
+	print(largest)				# Redefine the oldest archive data
+	free, total, used = GetDiskUsage(outputLocation)															# Get new usage
 	diff = float(GetFileSize(largest))*allowance - float(free) 									  	# Reaffirm space differencial
 
 print("[BACKUP] Space check passed.")

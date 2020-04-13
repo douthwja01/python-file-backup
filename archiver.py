@@ -29,14 +29,21 @@ def CreateArchive(outputFilePath,archiveFilePaths):
 	try:
 	    with tarfile.open(outputFilePath, "w:gz") as tar:
 	    	for archiveFile in archiveFilePaths:
-	    		tar.add(archiveFile, arcname=archiveFile)
+	    		print("[BACKUP] Adding file: " + archiveFile)
+	    		tar.add(archiveFile, arcname=archiveFile, recursive=True, exclude=None, filter=None)
+	    	tar.close()
 	    flag = True
-	except Exception as err:
+	except EOFError as eofError:
+		# Output expected EOFErrors.
 		print("[BACKUP] --> Failed to write archive.")
-		print("OS error: {0}".format(err))
+		print("[BACKUP] {0}".format(eofError))
+	except Exception as exception:
+		# Output unexpected Exceptions.
+		print("[BACKUP] --> Failed to write archive.")
+		print("[BACKUP] {0}".format(exception))
 
-		if os.path.exists(outputFilePath):
-			os.remove(outputFilePath)				# If a file is created, remove it
+	if not flag and os.path.exists(outputFilePath):
+		os.remove(outputFilePath)				# If a file is created, remove it
 
 	return flag
 
@@ -131,7 +138,6 @@ print("[BACKUP] Space check passed.")
 print("[BACKUP] ")
 print("[BACKUP] Continuing with backup procedure...")
 print("[BACKUP] ")
-print("[BACKUP] Target archive: %s" %(outputFilePath))
 print("[BACKUP] Reading file set:")
 
 # Look for list of local files
@@ -145,7 +151,8 @@ for file in fileList:
 	print("[BACKUP] Queuing file '%s'" %(file))									# Read out for clarity
 
 print("[BACKUP] ")
-print("[BACKUP] Compressing files to archive '%s'" %(outputLocation))
+print("[BACKUP] Compressing target archive: ");
+print("[BACKUP] '%s'" %(outputFilePath))
 print("[BACKUP] ")
 
 flag = CreateArchive(outputFilePath,fileList)									# Create backup at output-path

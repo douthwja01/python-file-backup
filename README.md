@@ -10,7 +10,7 @@ A quick and simple linux-python back up tool. This tool is intended to facilate 
 
 # An example of the regular output structure
 
-<img src="output-files.PNG" height="320" title="maintained-output-directory-example"> 
+<img src="output-files.PNG" title="maintained-output-directory-example"> 
 
 I hope you find this useful!
 

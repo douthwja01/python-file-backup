@@ -1,11 +1,13 @@
 # simple-python-archiver
 A quick and simple linux-python back up tool. This tool is intended to facilate regular backups of a list of files though the use of crontab. The script maintains a set of time-stamped archives with a regular structure. The user can either allow script to maintain a fixed number of archives, or simply fill the available space before the oldest archives are overwritten. 
 
-# Overview
-Clean and regular output structure.
+# Clean output structure
+
 <img src="images/output-files.PNG" title="maintained-output-directory-example"> 
-Clean and descriptive logging.
-<img src="images/output-log.PNG" title="piped-output-log-example"> 
+
+# Descriptive logging
+
+<img src="images/output-log.PNG" width="600" title="piped-output-log-example"> 
 
 # Features
 - The list of files to be included are specified as absolute paths in "archive-files.txt"

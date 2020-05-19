@@ -7,4 +7,8 @@ A quick and simple linux-python back up tool. This tool is intended to facilate 
 - The script can either maintain a fixed number of archives, or maintain as many as drive space allows.
 - Does not need super-user (depending on the files being included).
 
+# An example of the regular output structure
+
+<img src="output-files.png" height="320" title="maintained-output-directory-example"> 
+
 I hope you find this useful!
